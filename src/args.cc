@@ -166,6 +166,8 @@ void Args::parseArgs(const std::vector<std::string>& args) {
         cutoff = std::stoi(args.at(ai + 1));
       } else if (args[ai] == "-dsub") {
         dsub = std::stoi(args.at(ai + 1));
+      } else if (args[ai] == "-contextWordPos") {
+        contextWordPos = std::stoi(args.at(ai + 1));
       } else {
         std::cerr << "Unknown argument: " << args[ai] << std::endl;
         printHelp();
@@ -192,6 +194,7 @@ void Args::printHelp() {
   printDictionaryHelp();
   printTrainingHelp();
   printQuantizationHelp();
+  printCustomHelp();
 }
 
 
@@ -242,6 +245,12 @@ void Args::printQuantizationHelp() {
     << "  -dsub               size of each sub-vector [" << dsub << "]\n";
 }
 
+void Args::printCustomHelp() {
+  std::cerr
+    << "\nThe following arguments are custom:\n"
+    << "  -contextWordPos     position of a single context word to be trained (negative go to left, positive to right) [" << contextWordPos << "]\n";
+}
+
 void Args::save(std::ostream& out) {
   out.write((char*) &(dim), sizeof(int));
   out.write((char*) &(ws), sizeof(int));
@@ -256,6 +265,7 @@ void Args::save(std::ostream& out) {
   out.write((char*) &(maxn), sizeof(int));
   out.write((char*) &(lrUpdateRate), sizeof(int));
   out.write((char*) &(t), sizeof(double));
+  out.write((char*) &(contextWordPos), sizeof(int));
 }
 
 void Args::load(std::istream& in) {
@@ -272,6 +282,7 @@ void Args::load(std::istream& in) {
   in.read((char*) &(maxn), sizeof(int));
   in.read((char*) &(lrUpdateRate), sizeof(int));
   in.read((char*) &(t), sizeof(double));
+  in.read((char*) &(contextWordPos), sizeof(int));
 }
 
 void Args::dump(std::ostream& out) const {
@@ -288,6 +299,7 @@ void Args::dump(std::ostream& out) const {
   out << "maxn" << " " << maxn << std::endl;
   out << "lrUpdateRate" << " " << lrUpdateRate << std::endl;
   out << "t" << " " << t << std::endl;
+  out << "contextWordPos" << " " << contextWordPos << std::endl;
 }
 
 }

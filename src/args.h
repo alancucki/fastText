@@ -56,12 +56,15 @@ class Args {
     size_t cutoff;
     size_t dsub;
 
+    int contextWordPos;  // Position of the context word (!= 0)
+
     void parseArgs(const std::vector<std::string>& args);
     void printHelp();
     void printBasicHelp();
     void printDictionaryHelp();
     void printTrainingHelp();
     void printQuantizationHelp();
+    void printCustomHelp();
     void save(std::ostream&);
     void load(std::istream&);
     void dump(std::ostream&) const;
